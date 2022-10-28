@@ -1,0 +1,60 @@
+public class MessageClackData extends ClackData
+{
+
+    private String message;
+
+    public MessageClackData(String username, String message, String key, int type)
+    {
+        super(username,type);
+        this.message=encrypt(message,key);
+    }
+    public MessageClackData(String username, String message, int type)
+    {
+        super(username,type);//calls constructor in ClackData
+        this.message=message;
+    }
+    public MessageClackData()
+    {
+        this("Anon","no message",2);
+    }
+
+    public String getData()
+    {
+        return message;
+    }
+
+    public String getData(String key)
+    {
+        return decrypt(message,key);
+    }
+
+    public int hashCode()//Calculates hash code based on username and message length
+    {
+        int hash=0;
+        for (int i=0; (i<super.username.length() && i<10);i++)
+        {
+            for (int k=0;(k<message.length() && k<10);k++)
+            {
+                if (i%2==0)
+                {
+                    hash=hash+(message.length()*i);
+                }
+                if (k%2==1)
+                {
+                    hash=hash*(super.username.length()+k);
+                }
+            }
+        }
+        return hash;
+    }
+
+    public boolean equals(String message)//checks if the messages are equal to each other
+    {
+        return (this.message==message);
+    }
+
+    public String toString() //returns all message information as a string
+    {
+        return "User Name: "+this.getUserName() + " Date: " + this.getDate() + " Type: " +this.getType() + " Message: " +this.message;
+    }
+}
